@@ -13,6 +13,15 @@
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" crossorigin="anonymous"></script>
 
+  <!-- MoEngage Web SDK (Workspace ID / App ID) -->
+  <script type="text/javascript">
+    (function(i,s,o,g,r,a,m,n){i.moengage_object=r;t={};q=function(f){return function(){(i.moengage_q=i.moengage_q||[]).push({f:f,a:arguments})}};f=['track_event','add_user_attribute','add_first_name','add_last_name','add_email','add_mobile','add_user_name','add_gender','add_birthday','destroy_session','add_unique_user_id','moe_events','call_web_push','track','location_type_attribute'],h={onsite:["getData","registerCallback"]};for(k in f){t[f[k]]=q(f[k])}for(k in h)for(l in h[k]){null==t[k]&&(t[k]={}),t[k][h[k][l]]=q(k+"."+h[k][l])}a=s.createElement(o);m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m);i.moe=i.moe||function(){n=arguments[0];return t};a.onload=function(){if(n){i[r]=moe(n)}}})(window,document,'script','https://cdn.moengage.com/webpush/moe_webSdk.min.latest.js','Moengage');
+    window.Moengage = moe({
+      app_id: "NIVAUUN9DMI0RXNZ3QKZCUHO",
+      debug_logs: 0
+    });
+  </script>
+
   <!-- Style reused from the provided index.html -->
   <style>
     body, html {
@@ -564,11 +573,43 @@
 
       const payload = getFormData(form);
 
-      // TODO: Replace this with your actual submit handler (MoEngage / API endpoint / CRM etc.)
-      // Example:
-      // fetch('/submit', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(payload) })
+      // --- MoEngage tracking ---
+      // NOTE: We store attributes WITHOUT the q1/q2 prefixes (those are only internal identifiers).
+      // Event name: customer_preference
+      // Event attributes + user attributes:
+      // experience, purpose, risk, reaction, horizon, preference, frequency, involvement, assets, digital, ai, approach
+      const moeAttributes = {
+        experience: payload.q1_investor_stage || "",
+        purpose: payload.q2_primary_goal || "",
+        risk: payload.q3_risk_profile || "",
+        reaction: payload.q4_market_reaction || "",
+        horizon: payload.q5_horizon || "",
+        preference: payload.q6_investment_preference || "",
+        frequency: payload.q7_invest_frequency || "",
+        involvement: payload.q8_hands_on || "",
+        assets: Array.isArray(payload.q9_asset_classes) ? payload.q9_asset_classes : (payload.q9_asset_classes ? [payload.q9_asset_classes] : []),
+        digital: payload.q10_digital_comfort || "",
+        ai: payload.q11_ai_reco || "",
+        approach: payload.q12_style || ""
+      };
+
+      // Track event with attributes
+      try {
+        if (window.Moengage && typeof window.Moengage.track_event === 'function') {
+          window.Moengage.track_event('customer_preference', moeAttributes);
+        }
+        // Persist answers as user attributes (will persist for this browser/device unless you identify the user)
+        if (window.Moengage && typeof window.Moengage.add_user_attribute === 'function') {
+          Object.keys(moeAttributes).forEach((key) => {
+            window.Moengage.add_user_attribute(key, moeAttributes[key]);
+          });
+        }
+      } catch (err) {
+        console.warn('MoEngage tracking error:', err);
+      }
 
       console.log("Survey payload:", payload);
+      console.log("MoEngage attributes:", moeAttributes);
 
       // UX: disable submit to prevent repeat submits
       document.getElementById('geojitSurveySubmit').disabled = true;
