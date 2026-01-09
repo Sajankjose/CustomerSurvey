@@ -237,14 +237,15 @@
 
     // Read name / identity from URL and personalize the page header.
     document.addEventListener("DOMContentLoaded", function () {
-      const name = getQueryParam("name");     // e.g., ?name=Anitha
+      const fname = getQueryParam("fname");   // e.g., ?fname=Anitha
       const email = getQueryParam("email");   // optional
       const mobile = getQueryParam("mobile"); // optional
 
       // Personalize salutation
       const nameEl = document.getElementById("userName");
       if (nameEl) {
-        safeText(nameEl, name || "Valued Client");
+        const displayName = (fname && fname.length >= 3) ? fname : "Valued Client";
+        safeText(nameEl, displayName);
       }
 
       // Optional: identify user in MoEngage for persistent profile mapping.
@@ -267,8 +268,8 @@
             ));
           }
           // Store name as user attribute (optional, but useful)
-          if (name && typeof window.Moengage.add_user_attribute === "function") {
-            window.Moengage.add_user_attribute("name", name);
+          if (fname && fname.length >= 3 && typeof window.Moengage.add_user_attribute === "function") {
+            window.Moengage.add_user_attribute("first_name", fname);
           }
         }
       } catch (err) {
@@ -636,7 +637,7 @@
       // Event attributes + user attributes:
       // experience, purpose, risk, reaction, horizon, preference, frequency, involvement, assets, digital, ai, approach
       const moeAttributes = {
-        name: (getQueryParam('name') || ''),
+        fname: (getQueryParam('fname') || ''),
         email: (getQueryParam('email') || ''),
         mobile: (getQueryParam('mobile') || ''),
         utm_source: (getQueryParam('utm_source') || ''),
