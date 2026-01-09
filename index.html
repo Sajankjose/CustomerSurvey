@@ -1,1 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Investor Survey Landing</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: #f6f7fb;
+        color: #0f172a;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: radial-gradient(circle at top, #ffffff 0%, #eef2ff 55%, #e0e7ff 100%);
+      }
+      .page {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 48px 24px 72px;
+      }
+      header {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        margin-bottom: 36px;
+      }
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 12px;
+        border-radius: 999px;
+        background: #e0e7ff;
+        color: #3730a3;
+        font-weight: 600;
+        font-size: 0.85rem;
+        width: fit-content;
+      }
+      h1 {
+        font-size: clamp(2rem, 4vw, 3rem);
+        margin: 0;
+        color: #0f172a;
+      }
+      .subtitle {
+        font-size: 1.05rem;
+        line-height: 1.6;
+        color: #475569;
+        max-width: 720px;
+      }
+      .cta-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        margin-top: 12px;
+      }
+      .primary-btn {
+        background: #4f46e5;
+        color: white;
+        border: none;
+        padding: 14px 28px;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        box-shadow: 0 10px 20px rgba(79, 70, 229, 0.25);
+      }
+      .secondary-btn {
+        background: white;
+        color: #4f46e5;
+        border: 1px solid #c7d2fe;
+        padding: 14px 24px;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        cursor: pointer;
+      }
+      .content-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 24px;
+      }
+      .card {
+        background: white;
+        padding: 24px;
+        border-radius: 20px;
+        box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+        border: 1px solid #e2e8f0;
+      }
+      .card h2 {
+        margin: 0 0 12px;
+        font-size: 1.3rem;
+        color: #1e1b4b;
+      }
+      .card p {
+        margin: 0 0 20px;
+        color: #475569;
+        line-height: 1.6;
+      }
+      .question {
+        margin-bottom: 18px;
+      }
+      .question-title {
+        font-weight: 600;
+        margin-bottom: 10px;
+        color: #0f172a;
+      }
+      ul {
+        margin: 0;
+        padding-left: 18px;
+        color: #475569;
+        line-height: 1.5;
+      }
+      .survey-steps {
+        display: grid;
+        gap: 12px;
+      }
+      .step {
+        background: #f8fafc;
+        border-radius: 14px;
+        padding: 16px;
+        border: 1px dashed #cbd5f5;
+      }
+      .step strong {
+        color: #312e81;
+      }
+      footer {
+        margin-top: 48px;
+        text-align: center;
+        color: #64748b;
+        font-size: 0.95rem;
+      }
+      @media (max-width: 720px) {
+        .page {
+          padding: 32px 16px 56px;
+        }
+        .primary-btn,
+        .secondary-btn {
+          width: 100%;
+          justify-content: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <header>
+        <span class="eyebrow">Investor Profile Survey</span>
+        <h1>Shape a smarter investment journey in under 5 minutes.</h1>
+        <p class="subtitle">
+          Help us tailor the right portfolio guidance for you. This landing page captures your
+          goals, risk comfort, and preferred investment style. MoE integration will follow — for
+          now, we start with the essential questions.
+        </p>
+        <div class="cta-row">
+          <button class="primary-btn" type="button">Start the survey</button>
+          <button class="secondary-btn" type="button">Save and return later</button>
+        </div>
+      </header>
 
+      <section class="content-grid">
+        <article class="card">
+          <h2>Investor Profile &amp; Goals</h2>
+          <p>Tell us where you are in your investing journey and what you want to achieve.</p>
+          <div class="question">
+            <div class="question-title">Q1. What best describes you today?</div>
+            <ul>
+              <li>New to investing (mutual funds/stocks)</li>
+              <li>Some experience, still learning</li>
+              <li>Already invested, want to optimize</li>
+              <li>Experienced trader/investor seeking advanced strategies</li>
+            </ul>
+          </div>
+          <div class="question">
+            <div class="question-title">Q2. What are you primarily investing for?</div>
+            <ul>
+              <li>Long-term wealth creation</li>
+              <li>Regular income with stability (dividends, interest, payouts)</li>
+              <li>Capital protection with steady growth</li>
+              <li>A specific future goal (education, retirement, home, etc.)</li>
+              <li>Short-term opportunities / trading gains</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="card">
+          <h2>Risk &amp; Time Horizon</h2>
+          <p>Understand how much risk you are comfortable taking and for how long.</p>
+          <div class="question">
+            <div class="question-title">Q3. What is your risk profile?</div>
+            <ul>
+              <li>Conservative (Low Risk)</li>
+              <li>Moderate (Balanced Risk)</li>
+              <li>Aggressive (High Risk)</li>
+            </ul>
+          </div>
+          <div class="question">
+            <div class="question-title">Q4. How do you usually react to market ups and downs?</div>
+            <ul>
+              <li>Try to avoid losses</li>
+              <li>Okay with some ups and downs</li>
+              <li>Comfortable with volatility</li>
+              <li>Actively seek high-risk/high-reward opportunities</li>
+            </ul>
+          </div>
+          <div class="question">
+            <div class="question-title">Q5. What is your investment horizon?</div>
+            <ul>
+              <li>Less than 1 year (short-term trading/speculation)</li>
+              <li>1–3 years</li>
+              <li>3–5 years</li>
+              <li>5–7 years</li>
+              <li>7+ years (long-term compounding)</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="card">
+          <h2>Investment Style &amp; Behavior</h2>
+          <p>Let us know how you prefer to invest and how involved you want to be.</p>
+          <div class="question">
+            <div class="question-title">Q6. What kind of investment do you prefer?</div>
+            <ul>
+              <li>Stable &amp; predictable (fixed income, conservative funds)</li>
+              <li>Balanced growth (diversified portfolio)</li>
+              <li>High growth (equities, aggressive funds)</li>
+              <li>Active trading (stocks, derivatives, baskets)</li>
+            </ul>
+          </div>
+          <div class="question">
+            <div class="question-title">Q7. How often would you like to invest?</div>
+            <ul>
+              <li>Monthly</li>
+              <li>Quarterly / semi-annual</li>
+              <li>Occasionally, when markets look attractive</li>
+              <li>One-time investment</li>
+              <li>Frequent trading</li>
+            </ul>
+          </div>
+          <div class="question">
+            <div class="question-title">Q8. How hands-on do you want to be with your investments?</div>
+            <ul>
+              <li>Actively manage (research, trade, rebalance)</li>
+              <li>Mostly automatic (managed funds, robo-advisors)</li>
+              <li>Fully hassle-free (professional advisory, passive funds)</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="card">
+          <h2>Knowledge &amp; Preferences</h2>
+          <p>Share the asset classes and platforms you are most comfortable with.</p>
+          <div class="question">
+            <div class="question-title">Q9. Which asset classes interest you most?</div>
+            <ul>
+              <li>Equities (stocks, baskets, ETFs)</li>
+              <li>Debt / bonds / fixed income</li>
+              <li>Bullion</li>
+              <li>Others (commodities, REITs, crypto etc.)</li>
+            </ul>
+          </div>
+          <div class="question">
+            <div class="question-title">Q10. How comfortable are you with digital platforms for investing?</div>
+            <ul>
+              <li>Prefer human advisor / offline</li>
+              <li>Okay with apps but need guidance</li>
+              <li>Comfortable with online platforms</li>
+              <li>Advanced — use screeners, robo-advisors, trading tools</li>
+            </ul>
+          </div>
+          <div class="question">
+            <div class="question-title">Q11. Would you like to use AI-driven recommendations?</div>
+            <ul>
+              <li>Yes — open to automated suggestions</li>
+              <li>Maybe — but want human validation</li>
+              <li>No — prefer manual decision-making</li>
+            </ul>
+          </div>
+          <div class="question">
+            <div class="question-title">Q12. Do you prefer passive investing, active investing, or a hybrid approach?</div>
+            <ul>
+              <li>Passive investing (index funds, ETFs)</li>
+              <li>Active investing (stock picking, trading)</li>
+              <li>Hybrid approach (mix of both)</li>
+            </ul>
+          </div>
+        </article>
+      </section>
+
+      <section class="card" style="margin-top: 28px;">
+        <h2>What happens after you submit?</h2>
+        <div class="survey-steps">
+          <div class="step"><strong>1.</strong> We map your answers to a recommended portfolio mix.</div>
+          <div class="step"><strong>2.</strong> You receive a summary report with next-step actions.</div>
+          <div class="step"><strong>3.</strong> MoE-powered insights will be plugged in here when ready.</div>
+        </div>
+      </section>
+
+      <footer>
+        Estimated completion time: 4–5 minutes · Your responses remain confidential.
+      </footer>
+    </div>
+  </body>
+</html>
