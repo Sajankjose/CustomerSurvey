@@ -1,10 +1,10 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Geojit | Customer Preference Survey</title>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
@@ -13,16 +13,58 @@
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" crossorigin="anonymous"></script>
 
-  <!-- MoEngage Web SDK (Workspace ID / App ID) -->
+  <!-- ✅ MoEngage Web SDK (DC03 fixed) -->
   <script type="text/javascript">
-    (function(i,s,o,g,r,a,m,n){i.moengage_object=r;t={};q=function(f){return function(){(i.moengage_q=i.moengage_q||[]).push({f:f,a:arguments})}};f=['track_event','add_user_attribute','add_first_name','add_last_name','add_email','add_mobile','add_user_name','add_gender','add_birthday','destroy_session','add_unique_user_id','moe_events','call_web_push','track','location_type_attribute'],h={onsite:["getData","registerCallback"]};for(k in f){t[f[k]]=q(f[k])}for(k in h)for(l in h[k]){null==t[k]&&(t[k]={}),t[k][h[k][l]]=q(k+"."+h[k][l])}a=s.createElement(o);m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m);i.moe=i.moe||function(){n=arguments[0];return t};a.onload=function(){if(n){i[r]=moe(n)}}})(window,document,'script','https://cdn.moengage.com/webpush/moe_webSdk.min.latest.js','Moengage');
-    window.Moengage = moe({
-      app_id: "NIVAUUN9DMI0RXNZ3QKZCUHO",
-      debug_logs: 0
-    });
+    // ---- MoEngage Settings ----
+    // Your Live dashboard Geojit_Master is in DC03, so set dc_3.
+    var moeDataCenter = "dc_3";     // ✅ DC03
+    var moeAppID = "NIVAUUN9DMI0RXNZ3QKZCUHO";
+    var moeSdkMajorVersion = "2";  // keep "2" unless MoEngage specifies otherwise
+
+    (function(e,n,i,t,a,r,o,d){
+      if(!moeDataCenter || !moeDataCenter.match(/^dc_[0-9]+$/gm))
+        return console.error("MoEngage: Data center not passed correctly.");
+      e.moengage_object=a;
+
+      var s=e[a]=e[a]||[];
+      if(s.initialised>0) return console.error("MoEngage Web SDK initialised multiple times.");
+
+      var l={},g=function(f){return function(){(e.moengage_q=e.moengage_q||[]).push({f:f,a:arguments});}};
+      var u=[
+        "track_event","add_user_attribute","add_first_name","add_last_name","add_email","add_mobile",
+        "add_user_name","add_gender","add_birthday","destroy_session",
+        "add_unique_user_id","update_unique_user_id",
+        "moe_events","call_web_push","track","location_type_attribute"
+      ];
+      var m={onsite:["getData","registerCallback","getSelfHandledOSM"]};
+
+      for(var k in u){ l[u[k]]=g(u[k]); }
+      for(var v in m) for(var f in m[v]) { l[v]=l[v]||{}; l[v][m[v][f]]=g(v+"."+m[v][f]); }
+
+      r=n.createElement(i);
+      o=n.getElementsByTagName("head")[0];
+      r.async=1;
+      r.src=t;
+      o.appendChild(r);
+
+      e.moe=e.moe||function(){ d=arguments[0]; return l; };
+
+      r.addEventListener("load",function(){
+        e[a]=e.moe(d);
+        e[a].initialised=(e[a].initialised||0)+1;
+      });
+      r.addEventListener("error",function(){ console.error("MoEngage Web SDK loading failed."); });
+
+    })(window,document,"script",
+       "https://cdn.moengage.com/release/"+moeDataCenter+"/versions/"+moeSdkMajorVersion+"/moe_webSdk.min.latest.js",
+       "Moengage",
+       {
+         app_id: moeAppID,
+         debug_logs: 0 // set to 1 temporarily for testing
+       }
+    );
   </script>
 
-  <!-- Style reused from the provided index.html -->
   <style>
     body, html {
       font: 400 16px/24px "Open Sans", sans-serif;
@@ -99,24 +141,8 @@
     }
 
     .survey-form { width: 100%; padding: 0px 10px 10px; }
-    ol { padding-left: 0px; }
-    ol > li::marker { font-weight: 600; }
-    ol li { font-size: 16px; line-height: 20px; font-weight: 400; padding-left: 16px; margin-left: 20px; margin-bottom: 22px; }
-    ol li label { font-size: 16px; line-height: 20px; font-weight: 400; margin-bottom: 14px; }
-    @media only screen and (max-width: 768px) {
-      ol li, ol li label { font-size: 14px; line-height: 18px; color: #4c4c4c; margin-bottom: 12px; }
-      ol li { padding-left: 12px; }
-    }
-    .labelstrong { font-weight: 600; }
-    ol li .sublabel { font-size: 14px; line-height: 18px; font-weight: 400; }
-    ol li p { margin-bottom: 0px; }
 
-    .formGroup { display: flex; align-items: center; justify-content: flex-start; flex-wrap: wrap; }
-    @media only screen and (max-width: 1200px) {
-      .formGroup { flex-direction: column; justify-content: flex-start; align-items: flex-start; }
-    }
-
-    /* Custom radio/checkbox (matches existing look) */
+    /* Custom radio/checkbox */
     [type="radio"], [type="checkbox"] { position: absolute; left: -9999px; }
     [type="radio"] + label, [type="checkbox"] + label {
       position: relative;
@@ -128,7 +154,6 @@
       margin-right: 30px;
       margin-bottom: 10px;
     }
-    /* radio */
     [type="radio"] + label:before {
       content: '';
       position: absolute; left: 0; top: 0;
@@ -148,7 +173,6 @@
     }
     [type="radio"]:checked + label:after { opacity: 1; transform: scale(1); }
 
-    /* checkbox */
     [type="checkbox"] + label:before {
       content: '';
       position: absolute; left: 0; top: 0;
@@ -170,6 +194,10 @@
     [type="checkbox"]:checked + label:after { opacity: 1; }
 
     .helptext { font-size: 12px; color: #6b6b6b; margin-top: -8px; margin-bottom: 10px; }
+    .formGroup { display: flex; align-items: center; justify-content: flex-start; flex-wrap: wrap; }
+    @media only screen and (max-width: 1200px) {
+      .formGroup { flex-direction: column; justify-content: flex-start; align-items: flex-start; }
+    }
 
     .button-container { display: flex; padding: 20px; padding-bottom: 5px; align-items: center; justify-content: center; }
     .btn.btn-primary {
@@ -183,21 +211,25 @@
     .btn:focus, .btn.btn-primary:focus { outline: none; box-shadow: none; }
     .successMsg { display: flex; padding: 0px 10px 10px; align-items: center; justify-content: center; margin-bottom: 20px; color: #3E877C; text-align:center; }
     .errorMsg { display: none; padding: 0px 10px 10px; align-items: center; justify-content: center; margin-bottom: 10px; color: #b00020; text-align:center; }
-  
+
     /* Typeform-like wizard UX */
     .survey_steps { margin: 0; padding: 0; }
     .question-step { display:none; list-style:none; padding: 18px 10px; }
     .question-step.active { display:block; animation: fadeInUp .25s ease; }
     @keyframes fadeInUp { from { opacity:0; transform: translateY(6px);} to { opacity:1; transform: translateY(0);} }
-    .labelstrong { font-size: 18px; line-height: 26px; margin-bottom: 14px; }
+
+    .labelstrong { font-weight: 600; font-size: 18px; line-height: 26px; margin-bottom: 14px; }
     @media only screen and (max-width: 768px) { .labelstrong { font-size: 16px; line-height: 24px; } }
+
     .wizard-actions { display:flex; gap:12px; justify-content: space-between; align-items:center; }
     .wizard-actions .btn { flex:1; }
     .wizard-actions #btnBack { max-width: 160px; flex: 0 0 auto; }
+
     .progress-wrap { padding: 0 10px 10px 10px; }
     .progress-meta { display:flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
     .step-count { font-weight: 700; color:#3E877C; }
     .step-hint { font-size: 12px; opacity: .8; }
+
     .option-card {
       border: 1px solid rgba(62,135,124,.35);
       background: #ffffff;
@@ -209,15 +241,13 @@
       display:flex; align-items:flex-start; gap:10px;
     }
     .option-card:hover { transform: translateY(-1px); box-shadow: 0 8px 22px rgba(0,0,0,.06); border-color: rgba(62,135,124,.55); }
-    .option-card input { margin-top: 4px; }
     .option-card.selected { border-color: #3E877C; box-shadow: 0 10px 26px rgba(62,135,124,.18); }
-    .helptext { margin-top: -8px; margin-bottom: 10px; }
-
+    .sublabel { font-size: 14px; line-height: 18px; font-weight: 400; }
   </style>
 </head>
 
 <body>
-  
+
   <script>
     // --- URL helpers (personalization + attribution) ---
     function getQueryParam(param) {
@@ -235,49 +265,45 @@
       el.textContent = text;
     }
 
-    // Read name / identity from URL and personalize the page header.
+    // ✅ Personalize + ✅ Identify user for correct "customer attributes" mapping
     document.addEventListener("DOMContentLoaded", function () {
-      const fname = getQueryParam("fname");   // e.g., ?fname=Anitha
-      const email = getQueryParam("email");   // optional
-      const mobile = getQueryParam("mobile"); // optional
+      const name   = getQueryParam("name");     // optional
+      const email  = getQueryParam("email");    // optional
+      const mobile = getQueryParam("mobile");   // optional
+      const cid    = getQueryParam("cid");      // ✅ preferred stable id (customer/trading/CRM)
 
       // Personalize salutation
-      const nameEl = document.getElementById("userName");
-      if (nameEl) {
-        const displayName = (fname && fname.length >= 3) ? fname : "Valued Client";
-        safeText(nameEl, displayName);
-      }
+      safeText(document.getElementById("userName"), name || "Valued Client");
 
-      // Optional: identify user in MoEngage for persistent profile mapping.
-      // Note: MoEngage ties attributes to an anonymous device unless an identity is provided.
+      // IMPORTANT:
+      // - To ensure user attributes show under the correct customer profile,
+      //   set a stable Unique ID (cid preferred; email fallback).
       try {
-        if (window.Moengage && (email || mobile)) {
-          if (typeof window.Moengage.identify_user === "function") {
-            // Newer Web SDKs
-            window.Moengage.identify_user(Object.assign(
-              {},
-              email ? { email: email } : null,
-              mobile ? { mobile: mobile } : null
-            ));
-          } else if (typeof window.Moengage.identify === "function") {
-            // Some SDK builds expose identify()
-            window.Moengage.identify(Object.assign(
-              {},
-              email ? { email: email } : null,
-              mobile ? { mobile: mobile } : null
-            ));
+        if (window.Moengage) {
+          if (cid && typeof window.Moengage.add_unique_user_id === "function") {
+            window.Moengage.add_unique_user_id(cid);
+          } else if (email && typeof window.Moengage.add_unique_user_id === "function") {
+            window.Moengage.add_unique_user_id(email);
           }
-          // Store name as user attribute (optional, but useful)
-          if (fname && fname.length >= 3 && typeof window.Moengage.add_user_attribute === "function") {
-            window.Moengage.add_user_attribute("first_name", fname);
+
+          if (email && typeof window.Moengage.add_email === "function") {
+            window.Moengage.add_email(email);
+          }
+          if (mobile && typeof window.Moengage.add_mobile === "function") {
+            window.Moengage.add_mobile(mobile);
+          }
+
+          if (name && typeof window.Moengage.add_user_attribute === "function") {
+            window.Moengage.add_user_attribute("customer_name", name);
           }
         }
       } catch (err) {
-        console.warn("MoEngage identify/personalization error:", err);
+        console.warn("MoEngage identity error:", err);
       }
     });
   </script>
-<div class="outer-container">
+
+  <div class="outer-container">
     <div class="container">
       <div class="header">
         <a href="https://www.geojit.com/" target="_blank" class="link">www.geojit.com</a>
@@ -299,6 +325,8 @@
         <div class="errorMsg" id="errorMsg">Please answer all required questions.</div>
 
         <div id="survey_steps" class="survey_steps">
+
+          <!-- Q1 -->
           <div class="question-step" data-step="1" id="q1">
             <label class="labelstrong">What best describes you today?</label>
             <div class="formGroup">
@@ -309,6 +337,7 @@
             </div>
           </div>
 
+          <!-- Q2 -->
           <div class="question-step" data-step="2" id="q2">
             <label class="labelstrong">What are you primarily investing for?</label>
             <div class="formGroup">
@@ -320,6 +349,7 @@
             </div>
           </div>
 
+          <!-- Q3 -->
           <div class="question-step" data-step="3" id="q3">
             <label class="labelstrong">What is your risk profile?</label>
             <div class="formGroup">
@@ -329,6 +359,7 @@
             </div>
           </div>
 
+          <!-- Q4 -->
           <div class="question-step" data-step="4" id="q4">
             <label class="labelstrong">How do you usually react to market ups and downs?</label>
             <div class="formGroup">
@@ -339,6 +370,7 @@
             </div>
           </div>
 
+          <!-- Q5 -->
           <div class="question-step" data-step="5" id="q5">
             <label class="labelstrong">What is your investment horizon?</label>
             <div class="formGroup">
@@ -350,6 +382,7 @@
             </div>
           </div>
 
+          <!-- Q6 -->
           <div class="question-step" data-step="6" id="q6">
             <label class="labelstrong">What kind of investment do you prefer?</label>
             <div class="formGroup">
@@ -360,6 +393,7 @@
             </div>
           </div>
 
+          <!-- Q7 -->
           <div class="question-step" data-step="7" id="q7">
             <label class="labelstrong">How often would you like to invest?</label>
             <div class="formGroup">
@@ -371,6 +405,7 @@
             </div>
           </div>
 
+          <!-- Q8 -->
           <div class="question-step" data-step="8" id="q8">
             <label class="labelstrong">How hands-on do you want to be with your investments?</label>
             <div class="formGroup">
@@ -380,17 +415,23 @@
             </div>
           </div>
 
+          <!-- Q9 (updated product categories) -->
           <div class="question-step" data-step="9" id="q9">
-            <label class="labelstrong">Which asset classes interest you most?</label>
+            <label class="labelstrong">Which product categories interest you most?</label>
             <div class="helptext">You may select more than one.</div>
             <div class="formGroup">
-              <div class="option-card"><input type="checkbox" id="q9_1" name="q9_asset_classes" value="Equities (stocks, baskets, ETFs)"><label for="q9_1" class="sublabel">Equities (stocks, baskets, ETFs)</label></div>
-              <div class="option-card"><input type="checkbox" id="q9_2" name="q9_asset_classes" value="Debt / bonds / fixed income"><label for="q9_2" class="sublabel">Debt / bonds / fixed income</label></div>
-              <div class="option-card"><input type="checkbox" id="q9_3" name="q9_asset_classes" value="Bullion"><label for="q9_3" class="sublabel">Bullion</label></div>
-              <div class="option-card"><input type="checkbox" id="q9_4" name="q9_asset_classes" value="Others (commodities, REITs, crypto etc.)"><label for="q9_4" class="sublabel">Others (commodities, REITs, crypto etc.)</label></div>
+              <div class="option-card"><input type="checkbox" id="q9_1" name="q9_asset_classes" value="Equities (stocks)"><label for="q9_1" class="sublabel">Equities (stocks)</label></div>
+              <div class="option-card"><input type="checkbox" id="q9_2" name="q9_asset_classes" value="Derivatives (F&O)"><label for="q9_2" class="sublabel">Derivatives (F&O)</label></div>
+              <div class="option-card"><input type="checkbox" id="q9_3" name="q9_asset_classes" value="Mutual Funds (SIP / lump sum)"><label for="q9_3" class="sublabel">Mutual Funds (SIP / lump sum)</label></div>
+              <div class="option-card"><input type="checkbox" id="q9_4" name="q9_asset_classes" value="ETFs / Index Funds"><label for="q9_4" class="sublabel">ETFs / Index Funds</label></div>
+              <div class="option-card"><input type="checkbox" id="q9_5" name="q9_asset_classes" value="Bonds / NCDs / Fixed Income"><label for="q9_5" class="sublabel">Bonds / NCDs / Fixed Income</label></div>
+              <div class="option-card"><input type="checkbox" id="q9_6" name="q9_asset_classes" value="IPO / New issues"><label for="q9_6" class="sublabel">IPO / New issues</label></div>
+              <div class="option-card"><input type="checkbox" id="q9_7" name="q9_asset_classes" value="Portfolio Management Services (PMS) / AIF"><label for="q9_7" class="sublabel">Portfolio Management Services (PMS) / AIF</label></div>
+              <div class="option-card"><input type="checkbox" id="q9_8" name="q9_asset_classes" value="Gold (SGB / Gold ETFs)"><label for="q9_8" class="sublabel">Gold (SGB / Gold ETFs)</label></div>
             </div>
           </div>
 
+          <!-- Q10 -->
           <div class="question-step" data-step="10" id="q10">
             <label class="labelstrong">How comfortable are you with digital platforms for investing?</label>
             <div class="formGroup">
@@ -401,44 +442,38 @@
             </div>
           </div>
 
+          <!-- Q11 (previously Q12) -->
           <div class="question-step" data-step="11" id="q11">
-            <label class="labelstrong">Would you like to use AI-driven recommendations?</label>
+            <label class="labelstrong">Do you prefer passive investing, active investing, or a hybrid approach?</label>
             <div class="formGroup">
-              <div class="option-card"><input type="radio" id="q11_1" name="q11_ai_reco" value="Yes — open to automated suggestions" required><label for="q11_1" class="sublabel">Yes — open to automated suggestions</label></div>
-              <div class="option-card"><input type="radio" id="q11_2" name="q11_ai_reco" value="Maybe — but want human validation"><label for="q11_2" class="sublabel">Maybe — but want human validation</label></div>
-              <div class="option-card"><input type="radio" id="q11_3" name="q11_ai_reco" value="No — prefer manual decision-making"><label for="q11_3" class="sublabel">No — prefer manual decision-making</label></div>
+              <div class="option-card"><input type="radio" id="q11_1" name="q11_style" value="Passive investing (index funds, ETFs)" required><label for="q11_1" class="sublabel">Passive investing (index funds, ETFs)</label></div>
+              <div class="option-card"><input type="radio" id="q11_2" name="q11_style" value="Active investing (stock picking, trading)"><label for="q11_2" class="sublabel">Active investing (stock picking, trading)</label></div>
+              <div class="option-card"><input type="radio" id="q11_3" name="q11_style" value="Hybrid approach (mix of both)"><label for="q11_3" class="sublabel">Hybrid approach (mix of both)</label></div>
             </div>
           </div>
 
-          <div class="question-step" data-step="12" id="q12">
-            <label class="labelstrong">Do you prefer passive investing, active investing, or a hybrid approach?</label>
-            <div class="formGroup">
-              <div class="option-card"><input type="radio" id="q12_1" name="q12_style" value="Passive investing (index funds, ETFs)" required><label for="q12_1" class="sublabel">Passive investing (index funds, ETFs)</label></div>
-              <div class="option-card"><input type="radio" id="q12_2" name="q12_style" value="Active investing (stock picking, trading)"><label for="q12_2" class="sublabel">Active investing (stock picking, trading)</label></div>
-              <div class="option-card"><input type="radio" id="q12_3" name="q12_style" value="Hybrid approach (mix of both)"><label for="q12_3" class="sublabel">Hybrid approach (mix of both)</label></div>
-            </div>
-          </div>
         </div>
 
         <div class="progress-wrap">
-  <div class="progress-meta">
-    <div class="step-count"><span id="stepNum">1</span> / <span id="stepTotal">12</span></div>
-    <div class="step-hint" id="stepHint">Select an option to continue</div>
-  </div>
-  <div class="progress" style="height:8px; border-radius:999px; overflow:hidden;">
-    <div class="progress-bar" id="progressBar" role="progressbar" style="width:0%"></div>
-  </div>
-</div>
+          <div class="progress-meta">
+            <div class="step-count"><span id="stepNum">1</span> / <span id="stepTotal">11</span></div>
+            <div class="step-hint" id="stepHint">Select an option to continue</div>
+          </div>
+          <div class="progress" style="height:8px; border-radius:999px; overflow:hidden;">
+            <div class="progress-bar" id="progressBar" role="progressbar" style="width:0%"></div>
+          </div>
+        </div>
 
-<div class="button-container wizard-actions">
-  <button type="button" class="btn btn-secondary" id="btnBack">Back</button>
-  <button type="button" class="btn btn-primary" id="btnNext">Next</button>
-  <button type="submit" class="btn btn-primary" id="geojitSurveySubmit" style="display:none;">Submit</button>
-</div>
+        <div class="button-container wizard-actions">
+          <button type="button" class="btn btn-secondary" id="btnBack">Back</button>
+          <button type="button" class="btn btn-primary" id="btnNext">Next</button>
+          <button type="submit" class="btn btn-primary" id="geojitSurveySubmit" style="display:none;">Submit</button>
+        </div>
+
         <div class="successMsg" id="successMsg"></div>
       </form>
 
-      <!-- Thank you modal (same UX pattern as your existing page) -->
+      <!-- Thank you modal -->
       <div class="modal fade" id="thankYouModal" tabindex="-1" aria-labelledby="thankYouModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
@@ -464,14 +499,12 @@
   <script>
     function getFormData(form) {
       const data = {};
-      // radios
       const radioGroups = new Set([...form.querySelectorAll('input[type="radio"]')].map(r => r.name));
       radioGroups.forEach(name => {
         const checked = form.querySelector('input[type="radio"][name="'+name+'"]:checked');
         data[name] = checked ? checked.value : "";
       });
 
-      // checkboxes (multi)
       const checkboxGroups = new Set([...form.querySelectorAll('input[type="checkbox"]')].map(c => c.name));
       checkboxGroups.forEach(name => {
         const checked = [...form.querySelectorAll('input[type="checkbox"][name="'+name+'"]:checked')].map(x => x.value);
@@ -496,16 +529,18 @@
     }
 
     const form = document.getElementById('survey');
-    // Wizard (one question at a time)
     const steps = Array.from(document.querySelectorAll('.question-step'));
     const totalSteps = steps.length;
+
     const stepNumEl = document.getElementById('stepNum');
     const stepTotalEl = document.getElementById('stepTotal');
     const progressBar = document.getElementById('progressBar');
+
     const btnNext = document.getElementById('btnNext');
     const btnBack = document.getElementById('btnBack');
     const stepHint = document.getElementById('stepHint');
 
+    // ensure total shown matches computed
     stepTotalEl.textContent = String(totalSteps);
 
     let currentStep = 0;
@@ -522,29 +557,26 @@
     function showStep(index) {
       steps.forEach((s,i) => s.classList.toggle('active', i === index));
       currentStep = index;
+
       stepNumEl.textContent = String(index + 1);
+
       const pct = Math.round(((index) / (totalSteps - 1)) * 100);
       progressBar.style.width = (isFinite(pct) ? pct : 0) + '%';
 
-      // buttons
       btnBack.style.visibility = index === 0 ? 'hidden' : 'visible';
 
-      // Show submit only on last step
       const isLast = index === totalSteps - 1;
       document.getElementById('geojitSurveySubmit').style.display = isLast ? 'inline-block' : 'none';
       btnNext.style.display = isLast ? 'none' : 'inline-block';
 
-      // reset messages
       document.getElementById('errorMsg').style.display = 'none';
       stepHint.textContent = 'Select an option to continue';
 
       updateOptionCardSelection(steps[index]);
 
-      // focus first input
       const firstInput = steps[index].querySelector('input');
       if (firstInput) firstInput.focus({preventScroll:true});
 
-      // scroll to top of card
       const container = document.querySelector('.container');
       if (container) container.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
@@ -557,7 +589,6 @@
       }
       const checks = stepEl.querySelectorAll('input[type="checkbox"]');
       if (checks.length) {
-        // For Q9 we require at least one selection
         return stepEl.querySelectorAll('input[type="checkbox"]:checked').length > 0;
       }
       return true;
@@ -575,19 +606,16 @@
 
     // Make option cards clickable
     document.querySelectorAll('.option-card').forEach(card => {
-      card.addEventListener('click', (e) => {
+      card.addEventListener('click', () => {
         const input = card.querySelector('input');
         if (!input) return;
-        if (input.type === 'radio') {
-          input.checked = true;
-        } else if (input.type === 'checkbox') {
-          input.checked = !input.checked;
-        }
+        if (input.type === 'radio') input.checked = true;
+        else if (input.type === 'checkbox') input.checked = !input.checked;
         input.dispatchEvent(new Event('change', { bubbles: true }));
       });
     });
 
-    // On change, update selection and enable next vibe
+    // On change, update selection
     form.addEventListener('change', (e) => {
       const active = steps[currentStep];
       if (!active.contains(e.target)) return;
@@ -610,7 +638,6 @@
       if (e.key !== 'Enter') return;
       const isLast = currentStep === totalSteps - 1;
       if (isLast) return;
-      // prevent accidental submit note
       e.preventDefault();
       btnNext.click();
     });
@@ -620,6 +647,7 @@
 
     form.addEventListener('submit', function(e) {
       e.preventDefault();
+
       document.getElementById('successMsg').innerText = "";
       document.getElementById('errorMsg').style.display = "none";
 
@@ -632,19 +660,19 @@
       const payload = getFormData(form);
 
       // --- MoEngage tracking ---
-      // NOTE: We store attributes WITHOUT the q1/q2 prefixes (those are only internal identifiers).
       // Event name: customer_preference
-      // Event attributes + user attributes:
-      // experience, purpose, risk, reaction, horizon, preference, frequency, involvement, assets, digital, ai, approach
       const moeAttributes = {
-        fname: (getQueryParam('fname') || ''),
+        customer_name: (getQueryParam('name') || ''),
         email: (getQueryParam('email') || ''),
         mobile: (getQueryParam('mobile') || ''),
+        cid: (getQueryParam('cid') || ''),
+
         utm_source: (getQueryParam('utm_source') || ''),
         utm_medium: (getQueryParam('utm_medium') || ''),
         utm_campaign: (getQueryParam('utm_campaign') || ''),
         utm_content: (getQueryParam('utm_content') || ''),
         utm_term: (getQueryParam('utm_term') || ''),
+
         experience: payload.q1_investor_stage || "",
         purpose: payload.q2_primary_goal || "",
         risk: payload.q3_risk_profile || "",
@@ -653,37 +681,39 @@
         preference: payload.q6_investment_preference || "",
         frequency: payload.q7_invest_frequency || "",
         involvement: payload.q8_hands_on || "",
-        assets: Array.isArray(payload.q9_asset_classes) ? payload.q9_asset_classes : (payload.q9_asset_classes ? [payload.q9_asset_classes] : []),
+        products_interested: Array.isArray(payload.q9_asset_classes) ? payload.q9_asset_classes : (payload.q9_asset_classes ? [payload.q9_asset_classes] : []),
         digital: payload.q10_digital_comfort || "",
-        ai: payload.q11_ai_reco || "",
-        approach: payload.q12_style || ""
+        approach: payload.q11_style || ""
       };
 
-      // Track event with attributes
       try {
-        if (window.Moengage && typeof window.Moengage.track_event === 'function') {
-          window.Moengage.track_event('customer_preference', moeAttributes);
+        // Track event with attributes
+        if (window.Moengage && typeof window.Moengage.track_event === "function") {
+          window.Moengage.track_event("customer_preference", moeAttributes);
         }
-        // Persist answers as user attributes (recommended: identify user for cross-device persistence)
-        if (window.Moengage && typeof window.Moengage.add_user_attribute === 'function') {
-          const answerKeys = ['experience','purpose','risk','reaction','horizon','preference','frequency','involvement','assets','digital','ai','approach'];
-          answerKeys.forEach((key) => {
+
+        // Persist answers as user attributes (for segmentation + profile view)
+        if (window.Moengage && typeof window.Moengage.add_user_attribute === "function") {
+          const keysToPersist = [
+            "experience","purpose","risk","reaction","horizon","preference","frequency","involvement",
+            "products_interested","digital","approach",
+            // optional: store UTMs at profile level too
+            "utm_source","utm_medium","utm_campaign","utm_content","utm_term"
+          ];
+          keysToPersist.forEach((key) => {
             window.Moengage.add_user_attribute(key, moeAttributes[key]);
           });
         }
       } catch (err) {
-        console.warn('MoEngage tracking error:', err);
+        console.warn("MoEngage tracking error:", err);
       }
 
-      console.log("Survey payload:", payload);
-      console.log("MoEngage attributes:", moeAttributes);
-
-      // UX: disable submit to prevent repeat submits
+      // UX
       document.getElementById('geojitSurveySubmit').disabled = true;
-
       $('#thankYouModal').modal('toggle');
       document.getElementById('successMsg').innerText = "Submitted successfully.";
     });
   </script>
+
 </body>
 </html>
